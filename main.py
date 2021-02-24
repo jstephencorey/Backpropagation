@@ -1,38 +1,43 @@
 import math
 import numpy as np
 
+# globals:
+# number_hidden_layers = 1 # Assuming only one layer
+learning_rate = 1
+hidden_layer_num_nodes = 2
+
+num_inputs = 2
+num_outputs = 1
+
+
+
 def sigmoid(x):
     return (1/(1+math.exp(-x)))
 
 
-learning_rate = 1
 weights1 = np.array([1., 1., 1.])
 weights2 = np.array([1., 1., 1.])
 weights3 = np.array([1., 1., 1.])
+
+weight_array= np.random.rand(num_inputs+1,num_outputs)*1-0.5
 
 print("\tRound 1, inputs 0 0 target 1:")
 inputs_r1 = np.array([0, 0])
 t1 = 1
 
 #hidden 
-number_hidden_layers = 1
-
-for i in range(0, number_hidden_layers):
-  hidden_layer_num_nodes = 2
-  hidden_layer_outputs = np.zeroes(hidden_layer_num_nodes)
-  for j in range (0, len(hidden_layer_outputs)):
-    hidden_layer_outputs[j] = np.dot(np.append(inputs_r1, 1), weights2)
-    print("Added up the weights for node {}:".format(j), hidden_layer_outputs[j])
-    hidden_layer_outputs[j] = sigmoid(hidden_layer_outputs[j])
-    print("After activaction function for node {}:".format(j), hidden_layer_outputs[j])
+hidden_layer_outputs = np.zeros(hidden_layer_num_nodes)
+for j in range (0, len(hidden_layer_outputs)):
+  net = np.dot(np.append(inputs_r1, 1), weights2)
+  print("Added up the weights for node {}:".format(j), hidden_layer_outputs[j])
+  hidden_layer_outputs[j] = sigmoid(net)
+  print("After activaction function for node {}:".format(j), hidden_layer_outputs[j])
 
 
-    # net3 = np.dot(np.append(inputs_r1, 1), weights3)
-    # print("Added up the weights for node 3:", net3)
-    # net3 = sigmoid(net3)
-    # print("After activaction function for node 3:", net3)
-
+net2 = hidden_layer_outputs[0]
+net3 = hidden_layer_outputs[1]
 #output layer
+
 
 inputs_node1 = hidden_layer_outputs
 
@@ -138,3 +143,4 @@ print("new weights:", weights1, weights2, weights3)
 
 # print("new weights:", weights1, weights2, weights3)
 # print()
+
