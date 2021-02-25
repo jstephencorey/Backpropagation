@@ -19,7 +19,8 @@ weights1 = np.array([1., 1., 1.])
 weights2 = np.array([1., 1., 1.])
 weights3 = np.array([1., 1., 1.])
 
-weight_array= np.random.rand(num_inputs+1,num_outputs)*1-0.5
+# weight_array= np.random.rand(num_inputs+1,num_outputs)*1-0.5
+hidden_weight_array = np.ones((hidden_layer_num_nodes, num_inputs + 1))
 
 print("\tRound 1, inputs 0 0 target 1:")
 inputs_r1 = np.array([0, 0])
@@ -27,24 +28,31 @@ t1 = 1
 
 #hidden 
 hidden_layer_outputs = np.zeros(hidden_layer_num_nodes)
-for j in range (0, len(hidden_layer_outputs)):
-  net = np.dot(np.append(inputs_r1, 1), weights2)
-  print("Added up the weights for node {}:".format(j), hidden_layer_outputs[j])
+for j in range (0, hidden_layer_num_nodes):
+  net = np.dot(np.append(inputs_r1, 1), hidden_weight_array[j])
+  print("Added up the weights for node {}:".format(j), net)
   hidden_layer_outputs[j] = sigmoid(net)
   print("After activaction function for node {}:".format(j), hidden_layer_outputs[j])
 
 
 net2 = hidden_layer_outputs[0]
 net3 = hidden_layer_outputs[1]
-#output layer
 
+
+#output layer
+output_layer_weight_array = np.ones((num_outputs, len(hidden_layer_outputs) + 1))
 
 inputs_node1 = hidden_layer_outputs
 
-net1 = np.dot(np.append(inputs_node1, 1), weights1)
-print("Added up the weights for node 1:", net1)
-net1 = sigmoid(net1)
-print("After activaction function for node 1:", net1)
+output_layer_outputs = np.zeros(num_outputs)
+
+for i in range (0, num_outputs):
+  net = np.dot(np.append(inputs_node1, 1), output_layer_weight_array[i])
+  print("Added up the weights for node 1:", net)
+  output_layer_outputs[i] = sigmoid(net)
+  print("After activaction function for node 1:", output_layer_outputs[i])
+
+net1 = output_layer_outputs[0]
 
 d1 = (t1 - net1) * net1 * (1 - net1)
 print("lowercase delta 1:", d1)
